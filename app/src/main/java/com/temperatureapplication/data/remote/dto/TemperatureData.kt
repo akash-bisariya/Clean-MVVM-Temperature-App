@@ -5,7 +5,7 @@ data class TemperatureData(
     val clouds: Clouds? = null,
     val cod: Int? = null,
     val coord: Coord? = null,
-    val dt: Int? = null,
+    val dt: Long? = null,
     val id: Int? = null,
     val main: Main? = null,
     val name: String? = null,

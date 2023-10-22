@@ -10,16 +10,19 @@ import java.io.IOException
 import javax.inject.Inject
 
 class WeatherUseCase @Inject constructor(private val weatherRepository: WeatherRepository) {
-    operator fun invoke(appId:String,city:String,unit:String):Flow<Resource<TemperatureData>> = flow {
+    operator fun invoke(
+        appId: String,
+        city: String,
+        unit: String
+    ): Flow<Resource<TemperatureData>> = flow {
         try {
             emit(Resource.Loading())
 
-            val joke = weatherRepository.getTemperatureData(appId,city,unit)
+            val data = weatherRepository.getTemperatureData(appId, city, unit)
 
-            emit(Resource.Success(joke))
+            emit(Resource.Success(data))
 
-        }
-        catch (e: HttpException) {
+        } catch (e: HttpException) {
             emit(Resource.Error("Unexpected HttpException " + e.localizedMessage))
         } catch (e: IOException) {
             emit(Resource.Error("IO Exception, couldn't reach server " + e.localizedMessage))
