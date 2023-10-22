@@ -1,6 +1,8 @@
 package com.temperatureapplication.di
 
 import com.temperatureapplication.data.WeatherApi
+import com.temperatureapplication.data.repository.WeatherRepositoryImpl
+import com.temperatureapplication.domain.repository.WeatherRepository
 import com.temperatureapplication.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -27,15 +29,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCarousellNewsApi(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory):WeatherApi{
+    fun provideCarousellNewsApi(okHttpClient: OkHttpClient):WeatherApi{
 
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(WeatherApi::class.java)
 
+    }
+
+    @Provides
+    @Singleton
+    fun provideJokeRepository(api: WeatherApi):WeatherRepository{
+        return WeatherRepositoryImpl(api)
     }
 
 }
