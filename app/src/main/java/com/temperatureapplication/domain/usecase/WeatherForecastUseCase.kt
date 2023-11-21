@@ -18,7 +18,10 @@ class WeatherForecastUseCase @Inject constructor(private val weatherRepository: 
 
                 val data = weatherRepository.getForeCastData(appId, city, unit)
 
-                emit(Resource.Success(data))
+                data?.let {
+                    emit(Resource.Success(it))
+                }
+
 
             } catch (e: HttpException) {
                 emit(Resource.Error("Unexpected HttpException " + e.localizedMessage))

@@ -15,18 +15,13 @@ class WeatherUseCase @Inject constructor(private val weatherRepository: WeatherR
         city: String,
         unit: String
     ): Flow<Resource<TemperatureData>> = flow {
-        try {
-            emit(Resource.Loading())
 
-            val data = weatherRepository.getTemperatureData(appId, city, unit)
+        emit(Resource.Loading())
 
-            emit(Resource.Success(data))
+        val data = weatherRepository.getTemperatureData(appId, city, unit)
 
-        } catch (e: HttpException) {
-            emit(Resource.Error("Unexpected HttpException " + e.localizedMessage))
-        } catch (e: IOException) {
-            emit(Resource.Error("IO Exception, couldn't reach server " + e.localizedMessage))
-        }
+        emit(data)
+
 
     }
 
