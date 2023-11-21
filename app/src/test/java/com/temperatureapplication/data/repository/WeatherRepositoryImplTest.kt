@@ -5,15 +5,10 @@ import com.temperatureapplication.data.remote.dto.ForecastData
 import com.temperatureapplication.data.remote.dto.TemperatureData
 import com.temperatureapplication.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody
-import org.junit.Assert
 import org.junit.Assert.*
-
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyObject
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -27,7 +22,7 @@ class WeatherRepositoryImplTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

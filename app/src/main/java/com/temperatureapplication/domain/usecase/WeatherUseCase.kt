@@ -9,8 +9,8 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class WeatherUseCase @Inject constructor(private val weatherRepository: WeatherRepository) {
-    operator fun invoke(
+open class WeatherUseCase @Inject constructor(private val weatherRepository: WeatherRepository) {
+    operator  fun invoke(
         appId: String,
         city: String,
         unit: String
