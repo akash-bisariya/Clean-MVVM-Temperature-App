@@ -13,21 +13,13 @@ import javax.inject.Inject
 class WeatherForecastUseCase @Inject constructor(private val weatherRepository: WeatherRepository) {
     operator fun invoke(appId: String, city: String, unit: String): Flow<Resource<ForecastData>> =
         flow {
-            try {
-                emit(Resource.Loading())
 
-                val data = weatherRepository.getForeCastData(appId, city, unit)
+            emit(Resource.Loading())
 
-                data?.let {
-                    emit(Resource.Success(it))
-                }
+            val data = weatherRepository.getForeCastData(appId, city, unit)
 
+            emit(data)
 
-            } catch (e: HttpException) {
-                emit(Resource.Error("Unexpected HttpException " + e.localizedMessage))
-            } catch (e: IOException) {
-                emit(Resource.Error("IO Exception, couldn't reach server " + e.localizedMessage))
-            }
 
         }
 

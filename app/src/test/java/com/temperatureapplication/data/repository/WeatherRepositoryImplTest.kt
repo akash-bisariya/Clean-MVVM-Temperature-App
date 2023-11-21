@@ -32,7 +32,7 @@ class WeatherRepositoryImplTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun testGetForeCastData_CorrectResponse() = runTest {
+    fun testGetTemperatureData_CorrectResponse() = runTest {
         val sampleData = TemperatureData()
         Mockito.`when`(weatherApi.getTemperatureData(anyString(), anyString(), anyString()))
             .thenReturn(Response.success(sampleData))
@@ -45,7 +45,7 @@ class WeatherRepositoryImplTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun testGetForeCastData_ErrorResponse() = runTest {
+    fun testGetTemperatureData_ErrorResponse() = runTest {
         val sampleData = null
         Mockito.`when`(weatherApi.getTemperatureData(anyString(), anyString(), anyString()))
             .thenReturn(Response.success(sampleData))
@@ -59,13 +59,53 @@ class WeatherRepositoryImplTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun testGetForeCastData_NullResponse() = runTest {
+    fun testGetTemperatureData_NullResponse() = runTest {
         val sampleData = null
         Mockito.`when`(weatherApi.getTemperatureData(anyString(), anyString(), anyString()))
             .thenReturn(Response.success(sampleData))
 
         val sut = WeatherRepositoryImpl(weatherApi)
         val result = sut.getTemperatureData(anyString(), anyString(), anyString())
+        assertEquals(sampleData,result.data)
+
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun testGetForeCastData_CorrectResponse() = runTest {
+        val sampleData = ForecastData()
+        Mockito.`when`(weatherApi.getForecastData(anyString(), anyString(), anyString()))
+            .thenReturn(Response.success(sampleData))
+
+        val sut = WeatherRepositoryImpl(weatherApi)
+        val result = sut.getForeCastData(anyString(), anyString(), anyString())
+        assertEquals(true,result is Resource.Success)
+        assertEquals(sampleData,result.data)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun testGetForeCastData_ErrorResponse() = runTest {
+        val sampleData = null
+        Mockito.`when`(weatherApi.getForecastData(anyString(), anyString(), anyString()))
+            .thenReturn(Response.success(sampleData))
+
+        val sut = WeatherRepositoryImpl(weatherApi)
+        val result = sut.getForeCastData(anyString(), anyString(), anyString())
+        assertEquals(true,result is Resource.Error)
+
+    }
+
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun testGetForeCastData_NullResponse() = runTest {
+        val sampleData = null
+        Mockito.`when`(weatherApi.getForecastData(anyString(), anyString(), anyString()))
+            .thenReturn(Response.success(sampleData))
+
+        val sut = WeatherRepositoryImpl(weatherApi)
+        val result = sut.getForeCastData(anyString(), anyString(), anyString())
         assertEquals(sampleData,result.data)
 
     }

@@ -37,12 +37,22 @@ class WeatherRepositoryImpl @Inject constructor(private val api: WeatherApi) : W
         appId: String,
         queryCity: String,
         unit: String
-    ): ForecastData? {
-        val res = api.getForecastData(appId, queryCity, unit)
-        if (res.isSuccessful) {
-            return res.body()!!
+    ): Resource<ForecastData> {
+        return try {
+            val res = api.getForecastData(appId, queryCity, unit)
+            if (res.isSuccessful) {
+                res.body()?.let {
+                    Resource.Success(it)
+                } ?: Resource.Error("Unknown Error Occurred")
+            } else
+                Resource.Error(res.message())
+        } catch (e: HttpException) {
+            Resource.Error("Unexpected HttpException " + e.localizedMessage)
+        } catch (e: IOException) {
+            Resource.Error("IO Exception, couldn't reach server " + e.localizedMessage)
         }
-        return null
+
+
     }
 
 }

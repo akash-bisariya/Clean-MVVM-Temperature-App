@@ -8,6 +8,6 @@ interface WeatherRepository {
 
     suspend fun getTemperatureData(appId:String, queryCity:String, unit:String): Resource<TemperatureData>
 
-    suspend fun getForeCastData(appId:String, queryCity:String, unit:String): ForecastData?
+    suspend fun getForeCastData(appId:String, queryCity:String, unit:String): Resource<ForecastData>
 
 }
