@@ -11,19 +11,14 @@ import com.temperatureapplication.R
 import com.temperatureapplication.data.remote.dto.TemperatureData
 
 class WeatherForecastRecyclerAdapter(val data: List<TemperatureData>) :
-    RecyclerView.Adapter<WeatherForecastRecyclerAdapter.JokeViewHolder>() {
+    RecyclerView.Adapter<WeatherForecastRecyclerAdapter.WeatherForecastViewHolder>() {
 
     private var list = mutableListOf<TemperatureData>()
 
-    class JokeViewHolder(view: View) : ViewHolder(view) {
-        val tvTemperature: TextView
-        val tvDay: TextView
-
-        init {
-            // Define click listener for the ViewHolder's View
-            tvTemperature = view.findViewById(R.id.tv_temperature)
-            tvDay = view.findViewById(R.id.tv_day)
-        }
+    class WeatherForecastViewHolder(view: View) : ViewHolder(view) {
+        // Define click listener for the ViewHolder's View
+        val tvTemperature: TextView = view.findViewById(R.id.tv_temperature)
+        val tvDay: TextView = view.findViewById(R.id.tv_day)
     }
 
     fun setContentList(list: ArrayList<TemperatureData>) {
@@ -51,17 +46,17 @@ class WeatherForecastRecyclerAdapter(val data: List<TemperatureData>) :
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherForecastViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.forecast_item, parent, false)
-        return JokeViewHolder(view)
+        return WeatherForecastViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WeatherForecastViewHolder, position: Int) {
         holder.tvTemperature.text = "${this.list[position].main?.temp}°C"
         holder.tvDay.text = getDate(this.list[position].dt!!)
     }
